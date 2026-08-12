@@ -9,6 +9,10 @@ export class GameScene extends Phaser.Scene {
         console.log('Preload inoked') ;
         this.load.image('tiles', "src/assets/tilesets/map.png") ;
         this.load.tilemapTiledJSON('map', "src/assets/maps/map2.tmj") ;
+        this.load.spritesheet("player", "src/assets/player/player-spritesheet.png", {
+            frameWidth: 32,
+            frameHeight: 32
+        });
 
     }
 
@@ -40,14 +44,31 @@ export class GameScene extends Phaser.Scene {
             0, 0
         ) ;
 
+        
         map.createLayer(
             'trees',
             tileset,
             0, 0
         )
-    }
+        this.player = this.physics.add.sprite(200, 200, 'player', 15) ;
+        this.player.setScale(2) ;
+        console.log(this.textures.get("player")) ;
 
+        this.anims.create({
+            key: "walk",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 15,
+                end: 19
+            }),
+            frameRate: 8,
+            repeat: -1
+        }) ;
+        this.player.play("walk") ;
+
+        // this.player.setDepth(100) ;
+    }
+    
     update() {
         // console.log('Update invoked') ;
     }
-} 
+    } 
